@@ -3,12 +3,17 @@ var startBtn = document.getElementById("start-btn");
 var pEl = document.getElementById("page-text");
 var btnGrid = document.getElementById("btn-grid");
 var timerBox = document.getElementById("timer-box");
+// Label for input element on highscore page
+var inputLabel = document.getElementById("input");
+// Div for highscore ending page
+var highScore = document.getElementById("high-score");
 // Dynamically created buttons
 var answerBtns = document.querySelectorAll("button");
 
 header.textContent = "Coding Quizaroni";
 pEl.textContent = "Answer the questions before the timer runs out! Beware, incorrect answers will penalize your score by 10 seconds.";
 startBtn.textContent = "Start Quiz";
+inputLabel.classList.add('hide');
 var count = 75, interval;
 timerBox.innerText = "Time: " + count;
 
@@ -18,8 +23,9 @@ var shuffledQuestions, currentQuestionIndex
 // Timer countdown function
 var countdown = function() {
     var timer = setInterval(function() {
-        if(count === 0) {
-            stopInterval()
+        console.log(count);
+        if(count <= 0) {
+            stopInterval();
         }
         timerBox.innerText = "Time: " + count;
         count--;
@@ -27,13 +33,14 @@ var countdown = function() {
 
     var stopInterval = function() {
         clearInterval(timer);
-        alert("Oh no! You're out of time!");
-        document.location.reload();
+        if (confirm("Oh no! You're out of time! Click OK to try again.") == true) {
+            document.location.reload();
+        } else {
+            console.log('false');
+        }
     };
 
-
-    
-};
+    };
 
 // Quiz Array
 var quiz = [
@@ -132,6 +139,8 @@ var selectAnswer = function(event) {
 
 // End of quiz function to gather high score and store it into local storage
 var showHighscore = function() {
+    // clears the confirm box from popping up and keeps page from refreshing
+    confirm = function() {};
     btnGrid.classList.add("hide");
     header.innerText = "You've finished!";
     pEl.classList.remove('hide');
@@ -139,8 +148,18 @@ var showHighscore = function() {
     timerBox = function() {
         clearInterval(interval);
     }
-    // insert field for name for high score
+    inputLabel.classList.remove('hide');
+    var input = document.createElement('input');
+    input.classList.add('input');
+    input.name = 'input';
+    input.type = 'text';
+    input.placeholder = 'Your Name';
+    highScore.appendChild(input);
     // store high score in local storage
+    // get other highscores from localstorage
+    // if no highscore do an empty value???
+    // if yes, create list element to host values
+    // append high scores to high-score div???
 };
 
 

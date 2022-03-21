@@ -96,6 +96,37 @@ main {
 .hide {
     display: none;
 }
+
+.high-score {
+    display: flex;
+    justify-content: center;
+}
+
+.input-label {
+    /* margin: 2%; */
+    padding: 10px;
+    font-size: 30px;
+    color: purple;
+    text-align: center;
+    width: 20vw;
+}
+
+.input {
+    /* margin: 2%; */
+    padding: 10px;
+    font-size: 25px;
+    color: purple;
+    border: 2px solid darkblue;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 50vw;
+}
+
+.input:focus {
+    outline: none;
+    background-color: azure;
+}
+
 footer {
     background-color: #464646;
     padding: 2%;
