@@ -9,7 +9,7 @@ var answerBtns = document.querySelectorAll("button");
 header.textContent = "Coding Quizaroni";
 pEl.textContent = "Answer the questions before the timer runs out! Beware, incorrect answers will penalize your score by 10 seconds.";
 startBtn.textContent = "Start Quiz";
-var count = 75;
+var count = 75, interval;
 timerBox.innerText = "Time: " + count;
 
 // create variables that are undefinied to be used below
@@ -30,6 +30,8 @@ var countdown = function() {
         alert("Oh no! You're out of time!");
         timerBox.innerText = "Game Over";
     };
+
+
     
 };
 
@@ -121,7 +123,7 @@ var selectAnswer = function(event) {
         currentQuestionIndex++
         nextQuestion();
     } else if (shuffledQuestions.length > currentQuestionIndex + 1 && wrong) {
-        timerBox.innerHTML = "Time: " + count - 10;
+        timerBox.innerHTML = "Time: " + (count -= 10);
         selectedButton.classList.add("wrong");
     } else  {
         showHighscore();
@@ -133,8 +135,10 @@ var showHighscore = function() {
     btnGrid.classList.add("hide");
     header.innerText = "You've finished!";
     pEl.classList.remove('hide');
-    // pEl.innerText = "Your final score is" + value + "!";
-    // stop timer
+    pEl.innerText = "Your final score is " + count + "!";
+    timerBox = function() {
+        clearInterval(interval);
+    }
     // insert field for name for high score
     // store high score in local storage
 };
