@@ -12,6 +12,8 @@
 header {
     background: linear-gradient(purple, darkblue);
     padding: 50px;
+    display: flex;
+    justify-content: space-between;
 }
 
 a {
@@ -22,6 +24,15 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.timer-box {
+    font-size: 30px;
+    text-decoration: none;
+    color: azure;
+    border: 2px solid azure;
+    border-radius: 12px;
+    padding: 5px 12px;
 }
 
 main {
@@ -70,6 +81,11 @@ main {
     min-width: 20vw;
     max-width: 75vw;
     
+}
+
+.wrong {
+    background-color: rgba(128, 0, 128, 0.589);
+    text-decoration: line-through;
 }
 
 .btn-grid button:hover {
