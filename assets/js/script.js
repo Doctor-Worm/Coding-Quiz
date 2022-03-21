@@ -28,7 +28,7 @@ var countdown = function() {
     var stopInterval = function() {
         clearInterval(timer);
         alert("Oh no! You're out of time!");
-        timerBox.innerText = "Game Over";
+        document.location.reload();
     };
 
 
