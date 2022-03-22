@@ -80,7 +80,6 @@ main {
     margin: 14px auto;
     min-width: 20vw;
     max-width: 75vw;
-    
 }
 
 .wrong {
@@ -107,8 +106,8 @@ main {
     padding: 10px;
     font-size: 30px;
     color: purple;
-    text-align: center;
-    width: 20vw;
+    text-align: right;
+    width: 17vw;
 }
 
 .input {
@@ -119,12 +118,27 @@ main {
     border: 2px solid darkblue;
     border-radius: 12px;
     text-align: center;
-    max-width: 50vw;
+    max-width: 40vw;
 }
 
 .input:focus {
     outline: none;
     background-color: azure;
+}
+
+.submit-button {
+    padding: 10px 15px;
+    border-radius: 12px;
+    background-color: purple;
+    font-size: 30px;
+    margin: 0 20px;
+    width: auto;
+    color: azure;
+}
+
+.submit-button:hover {
+    background-color: azure;
+    color: purple;
 }
 
 footer {

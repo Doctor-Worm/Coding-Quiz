@@ -17,6 +17,8 @@ inputLabel.classList.add('hide');
 var count = 75, interval;
 timerBox.innerText = "Time: " + count;
 
+
+
 // create variables that are undefinied to be used below
 var shuffledQuestions, currentQuestionIndex
 
@@ -149,12 +151,46 @@ var showHighscore = function() {
         clearInterval(interval);
     }
     inputLabel.classList.remove('hide');
-    var input = document.createElement('input');
-    input.classList.add('input');
-    input.name = 'input';
-    input.type = 'text';
-    input.placeholder = 'Your Name';
-    highScore.appendChild(input);
+
+    // Create input element for user to input their name into.
+    var inputEl = document.createElement('input');
+    inputEl.classList.add('input');
+    inputEl.name = 'input';
+    inputEl.type = 'text';
+    inputEl.placeholder = 'Your Name';
+    inputEl.id = 'input-value';
+    highScore.appendChild(inputEl);
+
+    // Create the submit button. When clicked, will store high score and show high score page.
+    var submit = document.createElement('input');
+    submit.classList.add('submit-button');
+    submit.type = 'submit';
+    submit.textContent = "Submit";
+    submit.id = "submit-button";
+    highScore.appendChild(submit);
+    // when submit button is clicked, submit data to local storage.
+    // var submitButton = document.getElementById('input-value').value;
+    // console.log(submitButton);
+    var submitButton = document.getElementById("submit-button");
+    submitButton.addEventListener("click", submitScore);
+    var submitScore = function() {
+        console.log('butts');
+        var score = document.querySelector("input[name='input']").value;
+        console.log(score);
+    }
+    
+    
+    
+
+    // check localStorage for high score, if it's not there, use 'none'.
+    var scored = localStorage.getItem("highScore");
+    if (scored === null) {
+        scored = "None";
+    }
+    var arr = [];
+    arr.push(count,)
+    localStorage.setItem("score", JSON.stringify(arr));
+
     // store high score in local storage
     // get other highscores from localstorage
     // if no highscore do an empty value???
@@ -162,6 +198,27 @@ var showHighscore = function() {
     // append high scores to high-score div???
 };
 
+// function to create div and list to display scores that are saved into local storage
+var createScoresEl = function() {
+
+}
+
+// function to load previous scores saved into local storage
+var loadScores = function() {
+    // gather scores from localStorage and convert them from a string into an array of objects
+    var savedScores = localStorage.getItem("score");
+    if (!savedScores) {
+        return false;
+    }
+    savedScores = JSON.parse(savedScores);
+
+    // Iterate through saved tasks array and create task elements on the page
+    for (i = 0; i < savedScores.length; i++) {
+
+        // pass each saved task object into the 'createTaskEl()' function
+        createScoresEl(savedScores[i]);
+    }
+};
 
 // function to start quiz and shuffle through the quiz array
 var startQuiz = function() {
