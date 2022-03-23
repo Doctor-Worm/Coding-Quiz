@@ -139,6 +139,11 @@ var selectAnswer = function(event) {
     }
 };
 
+
+// var saveData = function() {
+    // localStorage.setItem("high score", JSON.stringify(score));
+// };
+
 // End of quiz function to gather high score and store it into local storage
 var showHighscore = function() {
     // clears the confirm box from popping up and keeps page from refreshing
@@ -161,64 +166,62 @@ var showHighscore = function() {
     inputEl.id = 'input-value';
     highScore.appendChild(inputEl);
 
-    // Create the submit button. When clicked, will store high score and show high score page.
+    // Create the submit button and append it to highScore div.
     var submit = document.createElement('input');
     submit.classList.add('submit-button');
     submit.type = 'submit';
     submit.textContent = "Submit";
     submit.id = "submit-button";
     highScore.appendChild(submit);
-    // when submit button is clicked, submit data to local storage.
-    // var submitButton = document.getElementById('input-value').value;
-    // console.log(submitButton);
+    // Grab value data from input field by listening for click of submit button
     var submitButton = document.getElementById("submit-button");
-    submitButton.addEventListener("click", submitScore);
+
     var submitScore = function() {
-        console.log('butts');
         var score = document.querySelector("input[name='input']").value;
         console.log(score);
+        // saveData();
     }
+    submitButton.addEventListener("click", submitScore);
     
-    
+    // run the function for local storage
+    // loadScores();
+};
+
+    // var loadScores = function () {
+    // check localStorage for high score, if it's not there, use 'none'.
+    // var savedScores = localStorage.getItem("highScores");
+    // if (savedScores === null) {
+    //     savedScores = "None";
+    // }
+    // savedScores = JSON.parse(savedScores);
+
+    // Iterate through saved tasks array and create task elements on the page
+    // for (i = 0; i < savedScores.length; i++) {
+
+    // pass each saved task object into the 'createTaskEl()' function
+    // createScoresEl(savedScores[i]);
+// }
+// };
+    // arr.push(count,)
+    // localStorage.setItem("score", JSON.stringify(arr));
+
     
 
-    // check localStorage for high score, if it's not there, use 'none'.
-    var scored = localStorage.getItem("highScore");
-    if (scored === null) {
-        scored = "None";
-    }
-    var arr = [];
-    arr.push(count,)
-    localStorage.setItem("score", JSON.stringify(arr));
+
 
     // store high score in local storage
     // get other highscores from localstorage
     // if no highscore do an empty value???
     // if yes, create list element to host values
     // append high scores to high-score div???
-};
+
 
 // function to create div and list to display scores that are saved into local storage
-var createScoresEl = function() {
+// var createScoresEl = function(savedScores) {
+//     button.classList.add('hide');
+// }
 
-}
 
-// function to load previous scores saved into local storage
-var loadScores = function() {
-    // gather scores from localStorage and convert them from a string into an array of objects
-    var savedScores = localStorage.getItem("score");
-    if (!savedScores) {
-        return false;
-    }
-    savedScores = JSON.parse(savedScores);
-
-    // Iterate through saved tasks array and create task elements on the page
-    for (i = 0; i < savedScores.length; i++) {
-
-        // pass each saved task object into the 'createTaskEl()' function
-        createScoresEl(savedScores[i]);
-    }
-};
 
 // function to start quiz and shuffle through the quiz array
 var startQuiz = function() {
