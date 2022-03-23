@@ -155,12 +155,65 @@ var showHighscore = function() {
     input.type = 'text';
     input.placeholder = 'Your Name';
     highScore.appendChild(input);
-    // store high score in local storage
-    // get other highscores from localstorage
-    // if no highscore do an empty value???
-    // if yes, create list element to host values
-    // append high scores to high-score div???
+    submitScore();
 };
+submitButton.addEventListener("click", submitScore); // NOT SURE WHERE TO PLACE THIS IN RELATION TO THE above submitScore(); on line 158.
+
+
+var submitScore = function() {
+    var score = document.querySelector("input[name='input']").value;
+    console.log(score);
+    saveData();
+
+}
+
+
+// run the function for local storage
+loadScores();
+
+
+var saveData = function() {
+    localStorage.setItem("High Score", JSON.stringify(arr));
+}
+
+var loadScores = function () {
+// check localStorage for high score, if it's not there, use 'none'.
+var savedScores = localStorage.getItem("highScores");
+if (savedScores === null) {
+    savedScores = "None";
+}
+savedScores = JSON.parse(savedScores);
+
+// Iterate through saved tasks array and create task elements on the page
+for (i = 0; i < savedScores.length; i++) {
+
+// pass each saved task object into the 'createTaskEl()' function
+createScoresEl(savedScores[i]);
+}
+}
+arr.push(count,)
+localStorage.setItem("score", JSON.stringify(arr));
+
+
+
+
+
+// store high score in local storage
+// get other highscores from localstorage
+// if no highscore do an empty value???
+// if yes, create list element to host values
+// append high scores to high-score div???
+
+
+// function to create div and list to display scores that are saved into local storage
+var createScoresEl = function(savedScores) {
+button.classList.add('hide');
+}
+
+
+
+
+
 
 
 // function to start quiz and shuffle through the quiz array
