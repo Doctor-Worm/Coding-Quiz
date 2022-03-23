@@ -42,6 +42,7 @@ var countdown = function() {
 
     };
 
+
 // Quiz Array
 var quiz = [
     {
@@ -137,6 +138,19 @@ var selectAnswer = function(event) {
     }
 };
 
+
+
+// empty arr variable for high scores to be stored into
+var arr = []
+
+// function to save score into local storage
+var saveData = function() {
+    arr.push(count)
+    localStorage.setItem("High Score", JSON.stringify(arr));
+};
+
+
+
 // End of quiz function to gather high score and store it into local storage
 var showHighscore = function() {
     // clears the confirm box from popping up and keeps page from refreshing
@@ -149,32 +163,41 @@ var showHighscore = function() {
         clearInterval(interval);
     }
     inputLabel.classList.remove('hide');
-    var input = document.createElement('input');
-    input.classList.add('input');
-    input.name = 'input';
-    input.type = 'text';
-    input.placeholder = 'Your Name';
-    highScore.appendChild(input);
-    submitScore();
+
+    // Create input element for user to input their name into.
+    var inputEl = document.createElement('input');
+    inputEl.classList.add('input');
+    inputEl.name = 'input';
+    inputEl.type = 'text';
+    inputEl.placeholder = 'Your Name';
+    inputEl.id = 'input-value';
+    highScore.appendChild(inputEl);
+
+    // Create input element for user to input their name into.
+    var submit = document.createElement('input');
+    submit.classList.add('submit-button');
+    submit.type = 'submit';
+    submit.textContent = "Submit";
+    submit.id = "submit-button";
+    highScore.appendChild(submit);
+
+    // Grab value data from input field by listening for click of submit button
+    var submitButton = document.getElementById("submit-button");
+
+    var submitScore = function() {
+        var score = document.querySelector("input[name='input']").value;
+        console.log(score);
+        saveData();
+    }
+    submitButton.addEventListener("click", submitScore);
 };
-submitButton.addEventListener("click", submitScore); // NOT SURE WHERE TO PLACE THIS IN RELATION TO THE above submitScore(); on line 158.
-
-
-var submitScore = function() {
-    var score = document.querySelector("input[name='input']").value;
-    console.log(score);
-    saveData();
-
-}
 
 
 // run the function for local storage
-loadScores();
+// loadScores();
 
 
-var saveData = function() {
-    localStorage.setItem("High Score", JSON.stringify(arr));
-}
+
 
 var loadScores = function () {
 // check localStorage for high score, if it's not there, use 'none'.

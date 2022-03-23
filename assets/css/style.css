@@ -127,6 +127,21 @@ main {
     background-color: azure;
 }
 
+.submit-button {
+    padding: 10px 15px;
+    border-radius: 12px;
+    background-color: purple;
+    font-size: 30px;
+    margin: 0 20px;
+    width: auto;
+    color: azure;
+}
+
+.submit-button:hover {
+    background-color: azure;
+    color: purple;
+}
+
 footer {
     background-color: #464646;
     padding: 2%;
