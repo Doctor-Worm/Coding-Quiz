@@ -24,11 +24,13 @@ var shuffledQuestions, currentQuestionIndex
 var countdown = function() {
     var timer = setInterval(function() {
         console.log(count);
-        if(count <= 0) {
+
+        if (count > 0 || shuffledQuestions.length > currentQuestionIndex + 1) {
+            count--;
+            timerBox.innerText = "Time: " + count;
+        } else {
             stopInterval();
         }
-        timerBox.innerText = "Time: " + count;
-        count--;
     }, 1000);
 
     var stopInterval = function() {
@@ -36,7 +38,7 @@ var countdown = function() {
         if (confirm("Oh no! You're out of time! Click OK to try again.") == true) {
             document.location.reload();
         } else {
-            console.log('false');
+            console.log('Time is up!');
         }
     };
 
@@ -140,14 +142,7 @@ var selectAnswer = function(event) {
 
 
 
-// empty arr variable for high scores to be stored into
-var arr = []
 
-// function to save score into local storage
-var saveData = function() {
-    arr.push(count)
-    localStorage.setItem("High Score", JSON.stringify(arr));
-};
 
 
 
@@ -155,6 +150,9 @@ var saveData = function() {
 var showHighscore = function() {
     // clears the confirm box from popping up and keeps page from refreshing
     confirm = function() {};
+
+    // clearTimeout(count);
+
     btnGrid.classList.add("hide");
     header.innerText = "You've finished!";
     pEl.classList.remove('hide');
@@ -187,11 +185,19 @@ var showHighscore = function() {
     var submitScore = function() {
         var score = document.querySelector("input[name='input']").value;
         console.log(score);
-        saveData();
+        saveData([]);
     }
     submitButton.addEventListener("click", submitScore);
 };
 
+// empty arr variable for high scores to be stored into
+var arr = []
+
+// function to save score into local storage
+var saveData = function() {
+    arr.push(count);
+    localStorage.setItem("High Score", JSON.stringify(arr));
+};
 
 // run the function for local storage
 // loadScores();
@@ -214,8 +220,8 @@ for (i = 0; i < savedScores.length; i++) {
 createScoresEl(savedScores[i]);
 }
 }
-arr.push(count,)
-localStorage.setItem("score", JSON.stringify(arr));
+// arr.push(count,)
+// localStorage.setItem("score", JSON.stringify(arr));
 
 
 
