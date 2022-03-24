@@ -14,7 +14,7 @@ header.textContent = "Coding Quizaroni";
 pEl.textContent = "Answer the questions before the timer runs out! Beware, incorrect answers will penalize your score by 10 seconds.";
 startBtn.textContent = "Start Quiz";
 inputLabel.classList.add('hide');
-var count = 75, interval;
+var count = 75;
 timerBox.innerText = "Time: " + count;
 
 // create variables that are undefinied to be used below
@@ -24,25 +24,22 @@ var shuffledQuestions, currentQuestionIndex
 var countdown = function() {
     var timer = setInterval(function() {
         console.log(count);
-
-        if (count > 0 || shuffledQuestions.length > currentQuestionIndex + 1) {
-            count--;
-            timerBox.innerText = "Time: " + count;
-        } else {
-            stopInterval();
+        if (count <= 0) {
+            clearInterval(timer);
+            if (confirm("Oh no! You're out of time! Click OK to try again.") == true) {
+                document.location.reload();
+            } else {
+                console.log('Time is up!');
+            }
         }
+        count--;
+        timerBox.innerText = "Time: " + count;
     }, 1000);
+};
 
-    var stopInterval = function() {
-        clearInterval(timer);
-        if (confirm("Oh no! You're out of time! Click OK to try again.") == true) {
-            document.location.reload();
-        } else {
-            console.log('Time is up!');
-        }
-    };
-
-    };
+   // || shuffledQuestions.length > currentQuestionIndex + 1
+    // if (currentQuestionIndex + 1 < shuffledQuestions.length) {
+        // clearInterval(timer);
 
 
 // Quiz Array
@@ -141,26 +138,25 @@ var selectAnswer = function(event) {
 };
 
 
-
-
-
-
+// empty arr variable for high scores to be stored into
+var arr = []
 
 // End of quiz function to gather high score and store it into local storage
 var showHighscore = function() {
     // clears the confirm box from popping up and keeps page from refreshing
     confirm = function() {};
 
-    // clearTimeout(count);
-
+    // clearInterval(timer);
     btnGrid.classList.add("hide");
     header.innerText = "You've finished!";
     pEl.classList.remove('hide');
     pEl.innerText = "Your final score is " + count + "!";
     timerBox = function() {
-        clearInterval(interval);
+        clearInterval(count);
     }
     inputLabel.classList.remove('hide');
+    // push the score into empty array to store in local storgage
+    arr.push(count);
 
     // Create input element for user to input their name into.
     var inputEl = document.createElement('input');
@@ -185,24 +181,14 @@ var showHighscore = function() {
     var submitScore = function() {
         var score = document.querySelector("input[name='input']").value;
         console.log(score);
-        saveData([]);
+        arr.push(score);
+        if (localStorage == null) {
+        localStorage.setItem("High Score", JSON.stringify(arr));
+        }
+        // saveData([]);
     }
     submitButton.addEventListener("click", submitScore);
 };
-
-// empty arr variable for high scores to be stored into
-var arr = []
-
-// function to save score into local storage
-var saveData = function() {
-    arr.push(count);
-    localStorage.setItem("High Score", JSON.stringify(arr));
-};
-
-// run the function for local storage
-// loadScores();
-
-
 
 
 var loadScores = function () {
@@ -219,16 +205,9 @@ for (i = 0; i < savedScores.length; i++) {
 // pass each saved task object into the 'createTaskEl()' function
 createScoresEl(savedScores[i]);
 }
-}
-// arr.push(count,)
-// localStorage.setItem("score", JSON.stringify(arr));
+};
 
 
-
-
-
-// store high score in local storage
-// get other highscores from localstorage
 // if no highscore do an empty value???
 // if yes, create list element to host values
 // append high scores to high-score div???
