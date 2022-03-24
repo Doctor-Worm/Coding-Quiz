@@ -20,26 +20,20 @@ timerBox.innerText = "Time: " + count;
 // create variables that are undefinied to be used below
 var shuffledQuestions, currentQuestionIndex
 
-// Timer countdown function
-var countdown = function() {
-    var timer = setInterval(function() {
-        console.log(count);
-        if (count <= 0) {
-            clearInterval(timer);
-            if (confirm("Oh no! You're out of time! Click OK to try again.") == true) {
-                document.location.reload();
-            } else {
-                console.log('Time is up!');
-            }
+// timer function
+var timer = function() {
+    console.log(count);
+    if (count <= 0) {
+        clearInterval(timer);
+        if (confirm("Oh no! You're out of time! Click OK to try again.") == true) {
+            document.location.reload();
+        } else {
+            console.log('Time is up!');
         }
-        count--;
-        timerBox.innerText = "Time: " + count;
-    }, 1000);
+    }
+    count--;
+    timerBox.innerText = "Time: " + count;
 };
-
-   // || shuffledQuestions.length > currentQuestionIndex + 1
-    // if (currentQuestionIndex + 1 < shuffledQuestions.length) {
-        // clearInterval(timer);
 
 
 // Quiz Array
@@ -146,18 +140,15 @@ var showHighscore = function() {
     // clears the confirm box from popping up and keeps page from refreshing
     confirm = function() {};
 
-    // clearInterval(timer);
+    clearInterval(myTimer);
+
     btnGrid.classList.add("hide");
     header.innerText = "You've finished!";
     pEl.classList.remove('hide');
     pEl.innerText = "Your final score is " + count + "!";
-    timerBox = function() {
-        clearInterval(count);
-    }
+   
     inputLabel.classList.remove('hide');
-    // push the score into empty array to store in local storgage
-    arr.push(count);
-
+  
     // Create input element for user to input their name into.
     var inputEl = document.createElement('input');
     inputEl.classList.add('input');
@@ -178,26 +169,38 @@ var showHighscore = function() {
     // Grab value data from input field by listening for click of submit button
     var submitButton = document.getElementById("submit-button");
 
-    var submitScore = function() {
-        var score = document.querySelector("input[name='input']").value;
-        console.log(score);
-        arr.push(score);
-        if (localStorage == null) {
-        localStorage.setItem("High Score", JSON.stringify(arr));
-        }
-        // saveData([]);
-    }
-    submitButton.addEventListener("click", submitScore);
+    submitButton.addEventListener("click", saveData);
 };
 
-
-var loadScores = function () {
-// check localStorage for high score, if it's not there, use 'none'.
-var savedScores = localStorage.getItem("highScores");
-if (savedScores === null) {
-    savedScores = "None";
+var saveData = function(event) {
+    event.preventDefault();
+    var nameInput = document.querySelector("input[name='input']").value;
+    // check if input values are empty strings
+    if (!nameInput) {
+        alert("You need to fill out your name!");
+        return false;
+    } else {
+    var scoreObj = {
+        name: nameInput,
+        score: count,
+    }
+    arr.push(scoreObj);
+    if (localStorage == null) {
+        localStorage.setItem("High Scores", JSON.stringify(arr));
+        } else {
+            
+            loadScores(scoreObj);
+        }
 }
+};
+
+var loadScores = function (scoreObj) {
+// check localStorage for high score, if it's not there, use 'none'.
+var savedScores = localStorage.getItem("High Scores");
+
 savedScores = JSON.parse(savedScores);
+
+
 
 // Iterate through saved tasks array and create task elements on the page
 for (i = 0; i < savedScores.length; i++) {
@@ -234,15 +237,20 @@ var startQuiz = function() {
    // set index to zero to set first question selected by quiz.sort as first question [0]
    currentQuestionIndex = 0;
    // start timer
-   countdown();
+   myTimer = setInterval(timer, 1000);
    nextQuestion();
-
-
-// on button click start timer at 75 seconds
-// when button is clicked
 };
 
 
 // how to set conditions on a timer?
 
 startBtn.addEventListener("click", startQuiz);
+
+
+
+// once user presses submit button - 
+// 1) save that name and score into array that's pushed to local storage
+// 2) pull array from local storage
+// 3) append list of scores and names to page below the submit input and button
+
+// do I need to pull array JSON.parse it, push new info into it, and then JSON.stringify it again and re-set it to local storage???
