@@ -14,7 +14,7 @@ header.textContent = "Coding Quizaroni";
 pEl.textContent = "Answer the questions before the timer runs out! Beware, incorrect answers will penalize your score by 10 seconds.";
 startBtn.textContent = "Start Quiz";
 inputLabel.classList.add('hide');
-var count = 75, interval;
+var count = 75;
 timerBox.innerText = "Time: " + count;
 
 
@@ -23,26 +23,20 @@ timerBox.innerText = "Time: " + count;
 var shuffledQuestions, currentQuestionIndex
 
 // Timer countdown function
-var countdown = function() {
-    var timer = setInterval(function() {
-        console.log(count);
-        if(count <= 0) {
-            stopInterval();
-        }
-        timerBox.innerText = "Time: " + count;
-        count--;
-    }, 1000);
-
-    var stopInterval = function() {
+var timer = function() {
+    console.log(count);
+    if(count <= 0) {
         clearInterval(timer);
         if (confirm("Oh no! You're out of time! Click OK to try again.") == true) {
             document.location.reload();
         } else {
-            console.log('false');
+            console.log('Time is up!');
         }
-    };
-
-    };
+    }
+        count--;
+        timerBox.innerText = "Time: " + count;
+        };
+        
 
 // Quiz Array
 var quiz = [
@@ -140,21 +134,17 @@ var selectAnswer = function(event) {
 };
 
 
-// var saveData = function() {
-    // localStorage.setItem("high score", JSON.stringify(score));
-// };
-
 // End of quiz function to gather high score and store it into local storage
 var showHighscore = function() {
     // clears the confirm box from popping up and keeps page from refreshing
     confirm = function() {};
+
+    clearInterval(myTimer);
+
     btnGrid.classList.add("hide");
     header.innerText = "You've finished!";
     pEl.classList.remove('hide');
     pEl.innerText = "Your final score is " + count + "!";
-    timerBox = function() {
-        clearInterval(interval);
-    }
     inputLabel.classList.remove('hide');
 
     // Create input element for user to input their name into.
@@ -177,49 +167,34 @@ var showHighscore = function() {
     var submitButton = document.getElementById("submit-button");
 
     var submitScore = function() {
-        var score = document.querySelector("input[name='input']").value;
-        console.log(score);
-        // saveData();
+        var nameInput = document.querySelector("input[name='input']").value;
+        console.log(nameInput);
+        
+        // check if input values are empty strings
+        if (!nameInput) {
+            alert("You need to fill out your name!");
+            return false;
+        } else {
+        // save user name and score
+        localStorage.setItem(nameInput, count);
+
+        // function to load score and append it to page
+        var loadScores = function (count) {
+            var nameInput = document.querySelector("input[name='input']").value;
+            var num = document.createElement('h2');
+            num.classList = 'h2';
+            num.innerHTML = "Congratulations  " + nameInput + "!";
+            main.appendChild(num);
+            }
+         // run the function for local storage
+        loadScores();
+        }
     }
+
     submitButton.addEventListener("click", submitScore);
-    
-    // run the function for local storage
-    // loadScores();
 };
 
-    // var loadScores = function () {
-    // check localStorage for high score, if it's not there, use 'none'.
-    // var savedScores = localStorage.getItem("highScores");
-    // if (savedScores === null) {
-    //     savedScores = "None";
-    // }
-    // savedScores = JSON.parse(savedScores);
 
-    // Iterate through saved tasks array and create task elements on the page
-    // for (i = 0; i < savedScores.length; i++) {
-
-    // pass each saved task object into the 'createTaskEl()' function
-    // createScoresEl(savedScores[i]);
-// }
-// };
-    // arr.push(count,)
-    // localStorage.setItem("score", JSON.stringify(arr));
-
-    
-
-
-
-    // store high score in local storage
-    // get other highscores from localstorage
-    // if no highscore do an empty value???
-    // if yes, create list element to host values
-    // append high scores to high-score div???
-
-
-// function to create div and list to display scores that are saved into local storage
-// var createScoresEl = function(savedScores) {
-//     button.classList.add('hide');
-// }
 
 
 
@@ -233,15 +208,9 @@ var startQuiz = function() {
    // set index to zero to set first question selected by quiz.sort as first question [0]
    currentQuestionIndex = 0;
    // start timer
-   countdown();
+   myTimer = setInterval(timer, 1000);
    nextQuestion();
-
-
-// on button click start timer at 75 seconds
-// when button is clicked
 };
 
-
-// how to set conditions on a timer?
 
 startBtn.addEventListener("click", startQuiz);

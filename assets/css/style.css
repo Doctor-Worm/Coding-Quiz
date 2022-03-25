@@ -141,6 +141,16 @@ main {
     color: purple;
 }
 
+<<<<<<< HEAD
+=======
+.h2 {
+    font-size: 25px;
+    text-align: center;
+    margin: 10px 20%;
+    align-items: center;
+    padding: 2%;
+}
+>>>>>>> develop
 footer {
     background-color: #464646;
     padding: 2%;
