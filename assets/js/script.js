@@ -14,16 +14,18 @@ header.textContent = "Coding Quizaroni";
 pEl.textContent = "Answer the questions before the timer runs out! Beware, incorrect answers will penalize your score by 10 seconds.";
 startBtn.textContent = "Start Quiz";
 inputLabel.classList.add('hide');
-var count = 75;
+var count = 75, interval;
 timerBox.innerText = "Time: " + count;
+
+
 
 // create variables that are undefinied to be used below
 var shuffledQuestions, currentQuestionIndex
 
-// timer function
+// Timer countdown function
 var timer = function() {
     console.log(count);
-    if (count <= 0) {
+    if(count <= 0) {
         clearInterval(timer);
         if (confirm("Oh no! You're out of time! Click OK to try again.") == true) {
             document.location.reload();
@@ -31,10 +33,10 @@ var timer = function() {
             console.log('Time is up!');
         }
     }
-    count--;
-    timerBox.innerText = "Time: " + count;
-};
-
+        count--;
+        timerBox.innerText = "Time: " + count;
+        };
+        
 
 // Quiz Array
 var quiz = [
@@ -132,9 +134,6 @@ var selectAnswer = function(event) {
 };
 
 
-// empty arr variable for high scores to be stored into
-var arr = []
-
 // End of quiz function to gather high score and store it into local storage
 var showHighscore = function() {
     // clears the confirm box from popping up and keeps page from refreshing
@@ -146,9 +145,8 @@ var showHighscore = function() {
     header.innerText = "You've finished!";
     pEl.classList.remove('hide');
     pEl.innerText = "Your final score is " + count + "!";
-   
     inputLabel.classList.remove('hide');
-  
+
     // Create input element for user to input their name into.
     var inputEl = document.createElement('input');
     inputEl.classList.add('input');
@@ -158,72 +156,68 @@ var showHighscore = function() {
     inputEl.id = 'input-value';
     highScore.appendChild(inputEl);
 
-    // Create input element for user to input their name into.
+    // Create the submit button and append it to highScore div.
     var submit = document.createElement('input');
     submit.classList.add('submit-button');
     submit.type = 'submit';
     submit.textContent = "Submit";
     submit.id = "submit-button";
     highScore.appendChild(submit);
-
     // Grab value data from input field by listening for click of submit button
     var submitButton = document.getElementById("submit-button");
 
-    submitButton.addEventListener("click", saveData);
-};
-
-var saveData = function(event) {
-    event.preventDefault();
-    var nameInput = document.querySelector("input[name='input']").value;
-    // check if input values are empty strings
-    if (!nameInput) {
-        alert("You need to fill out your name!");
-        return false;
-    } else {
-    var scoreObj = {
-        name: nameInput,
-        score: count,
-    }
-    arr.push(scoreObj);
-    if (localStorage == null) {
-        localStorage.setItem("High Scores", JSON.stringify(arr));
+    var submitScore = function() {
+        var nameInput = document.querySelector("input[name='input']").value;
+        console.log(nameInput);
+        
+        // check if input values are empty strings
+        if (!nameInput) {
+            alert("You need to fill out your name!");
+            return false;
         } else {
-            
-            loadScores(scoreObj);
+        // save user name and score
+        localStorage.setItem(nameInput, count);
         }
-}
+    }
+
+    submitButton.addEventListener("click", submitScore);
+    
+    // run the function for local storage
+    // loadScores();
 };
 
-var loadScores = function (scoreObj) {
-// check localStorage for high score, if it's not there, use 'none'.
-var savedScores = localStorage.getItem("High Scores");
+    var loadScores = function () {
+    // check localStorage for high score, if it's not there, use 'none'.
+    var savedScores = localStorage.getItem(nameInput, count);
+        console.log('score', 'count');
+    if (savedScores === null) {
+        savedScores = "None";
+    }
+    savedScores = JSON.parse(savedScores);
 
-savedScores = JSON.parse(savedScores);
+    // Iterate through saved tasks array and create task elements on the page
+    for (i = 0; i < savedScores.length; i++) {
 
-
-
-// Iterate through saved tasks array and create task elements on the page
-for (i = 0; i < savedScores.length; i++) {
-
-// pass each saved task object into the 'createTaskEl()' function
-createScoresEl(savedScores[i]);
+    // pass each saved task object into the 'createTaskEl()' function
+    createScoresEl(savedScores[i]);
 }
-};
+}
+
+    
 
 
-// if no highscore do an empty value???
-// if yes, create list element to host values
-// append high scores to high-score div???
+
+    // store high score in local storage
+    // get other highscores from localstorage
+    // if no highscore do an empty value???
+    // if yes, create list element to host values
+    // append high scores to high-score div???
 
 
 // function to create div and list to display scores that are saved into local storage
 var createScoresEl = function(savedScores) {
-button.classList.add('hide');
+    button.classList.add('hide');
 }
-
-
-
-
 
 
 
@@ -239,18 +233,13 @@ var startQuiz = function() {
    // start timer
    myTimer = setInterval(timer, 1000);
    nextQuestion();
+
+
+// on button click start timer at 75 seconds
+// when button is clicked
 };
 
 
 // how to set conditions on a timer?
 
 startBtn.addEventListener("click", startQuiz);
-
-
-
-// once user presses submit button - 
-// 1) save that name and score into array that's pushed to local storage
-// 2) pull array from local storage
-// 3) append list of scores and names to page below the submit input and button
-
-// do I need to pull array JSON.parse it, push new info into it, and then JSON.stringify it again and re-set it to local storage???
